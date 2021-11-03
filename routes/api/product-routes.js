@@ -7,7 +7,7 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 router.get('/', (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
-  Product.findAll({include: [Category, ProductTag, Tag]})  //is this the right way to do it?
+  Product.findAll({include: [Category, {model: Tag, through: ProductTag}]})  //is this the right way to do it?
   .then((data) => {
     res.json(data);
   }) .catch(err => {
@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
-  Product.findOne({include: [Category, ProductTag, Tag], where: {id:req.params.id}}) //is this the right way to do it?
+  Product.findOne({include: [Category, {model: Tag, through: ProductTag}], where: {id:req.params.id}}) //is this the right way to do it?
   .then((data) => {
     res.json(data);
   }) .catch(err => {

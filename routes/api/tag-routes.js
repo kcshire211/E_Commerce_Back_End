@@ -4,7 +4,7 @@ const { Tag, Product, ProductTag } = require('../../models');
 // The `/api/tags` endpoint
 
 router.get('/', (req, res) => {
-  Tag.findAll({include: [Product, ProductTag]})  //is this the right way to do it?
+  Tag.findAll({include: [Product, ProductTag]})
   .then((data) => {
     res.json(data);
   }) .catch(err => {
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   // find a single tag by its `id`
   // be sure to include its associated Product data
-  Tag.findOne({include: [Product, ProductTag], where: {id:req.params.id}}) //is this the right way to do it?
+  Tag.findOne({include: [Product, {model: Product, through: ProductTag}], where: {id:req.params.id}})
   .then((data) => {
     res.json(data);
   }) .catch(err => {
